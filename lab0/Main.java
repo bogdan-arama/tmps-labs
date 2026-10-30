@@ -1,6 +1,6 @@
 public class Main {
     public static void main(String[] args) {
-        // --- 1. Single Responsibility (SRP) ---
+        // 1. Single Responsibility (SRP)
         Playlist playlist = new Playlist("Favorites");
         playlist.addSong(new Song("Careless Whisper", "George Michael", 300));
         playlist.addSong(new Song("Take Five", "Dave Brubeck", 324));
@@ -9,7 +9,7 @@ public class Main {
         PlaylistPrinter printer = new PlaylistPrinter();
         printer.print(playlist);
 
-        // --- 2. Open/Closed (OCP) & 3. Dependency Inversion (DIP) ---
+        // 2. Open/Closed (OCP) & 3. Dependency Inversion (DIP)
         // MusicPlayer doesn't care whether we use Speakers or Headphones.
         // It accepts any class that implements AudioOutput.
         AudioOutput headphones = new HeadphoneOutput();

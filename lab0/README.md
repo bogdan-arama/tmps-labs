@@ -19,7 +19,7 @@ The design strictly implements three fundamental SOLID design principles:
 ## 2. Project Architecture & File Structure
 
 ```text
-tmps/
+lab0/
 ├── Song.java                 // Data entity representing a musical track
 ├── Playlist.java             // Domain collection for managing songs
 ├── PlaylistPrinter.java      // Console presentation service
@@ -28,7 +28,7 @@ tmps/
 ├── HeadphoneOutput.java      // Concrete private listening output implementation
 ├── MusicPlayer.java          // High-level client controller executing playback
 ├── Main.java                 // Application bootstrap and dependency composition root
-└── uml_diagram.png           // UML Architecture Diagram
+└── diagram.png               // UML Architecture Diagram
 ```
 
 ---
@@ -162,7 +162,7 @@ public class MusicPlayer {
 
 ### 5.1 Running the Application
 
-Compile and run the program from the `tmps` directory:
+Compile and run the program from the `lab0` directory:
 
 ```bash
 javac *.java
