@@ -31,78 +31,21 @@ lab1/
 ├── FigurativeMarkFactory.java   // Creates FigurativeMark                      (Concrete Creator)
 ├── SoundMarkFactory.java        // Creates SoundMark                           (Concrete Creator)
 ├── TrademarkRegistry.java       // The one national register                   (Singleton)
-└── Main.java                    // Demo of all three patterns
+├── Main.java                    // Demo of all three patterns
+└── diagram.png                  // UML class diagram
 ```
 
 ---
 
 ## 3. UML Class Diagram
 
-```mermaid
-classDiagram
-    class TrademarkApplication {
-        -String applicant
-        -String markName
-        -MarkType markType
-        -List~Integer~ niceClasses
-        -List~String~ colors
-        -LocalDate priorityDate
-        -String description
-        -String logoFile
-        -String soundFile
-        -TrademarkApplication(Builder)
-    }
-    class Builder {
-        +Builder(applicant, markName, markType, niceClasses...)
-        +color(String) Builder
-        +priorityDate(LocalDate) Builder
-        +description(String) Builder
-        +logoFile(String) Builder
-        +soundFile(String) Builder
-        +build() TrademarkApplication
-    }
-    class Mark {
-        <<abstract>>
-        +getFee() int
-        +getType()* String
-        #getBaseFee()* int
-        +findRefusalReason()* Optional~String~
-    }
-    class MarkFactory {
-        <<abstract>>
-        +createMark(TrademarkApplication)* Mark
-    }
-    class MarkType {
-        <<enumeration>>
-        WORD
-        FIGURATIVE
-        SOUND
-        +getFactory() MarkFactory
-    }
-    class TrademarkRegistry {
-        -Map~String, Mark~ registeredMarks
-        -TrademarkRegistry()
-        +getInstance()$ TrademarkRegistry
-        +register(Mark) String
-    }
+![Trademark Registration Office UML Diagram](diagram.png)
 
-    TrademarkApplication +-- Builder
-    Builder ..> TrademarkApplication : builds
-    Mark o-- TrademarkApplication
-    TrademarkApplication --> MarkType
-    MarkType --> MarkFactory : gives
-    Mark <|-- WordMark
-    Mark <|-- FigurativeMark
-    Mark <|-- SoundMark
-    MarkFactory <|-- WordMarkFactory
-    MarkFactory <|-- FigurativeMarkFactory
-    MarkFactory <|-- SoundMarkFactory
-    MarkFactory ..> Mark : creates
-    WordMarkFactory ..> WordMark : creates
-    FigurativeMarkFactory ..> FigurativeMark : creates
-    SoundMarkFactory ..> SoundMark : creates
-    TrademarkRegistry o-- Mark : stores
-```
+### Architectural Relationships in the Diagram:
+* **Singleton (red):** `TrademarkRegistry` has a private constructor and a static `getInstance()` (underlined, because it is static). It aggregates all registered `Mark` objects (`0..*`).
+* **Builder (yellow):** `TrademarkApplication.Builder` is a static nested class of `TrademarkApplication` (the circled plus). Its `build()` method creates the immutable `TrademarkApplication`.
+* **Factory Method (blue):** the abstract creator `MarkFactory` declares `createMark()`. The concrete creators `WordMarkFactory`, `FigurativeMarkFactory` and `SoundMarkFactory` inherit from it (hollow triangle), and each one creates (`«creates»`, dashed arrow) its matching concrete product, which inherits from the abstract product `Mark`.
+* **Linking the form to the factory (violet):** `TrademarkApplication` holds a `MarkType`, and each `MarkType` value holds the factory for that type, so the client never chooses a concrete factory or mark class itself.
 
 ---
 
